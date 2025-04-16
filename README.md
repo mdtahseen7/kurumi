@@ -1,95 +1,107 @@
-# govd
+# Kurumi-Downloader (forked from govd)
 
-a telegram bot for downloading media from various platforms
+A Telegram bot for downloading media from various platforms.
 
-this project was born after the discontinuation of a highly popular bot known as UVD, and draws significant inspiration from [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+This project was created after the discontinuation of the popular UVD bot and draws significant inspiration from [yt-dlp](https://github.com/yt-dlp/yt-dlp).
 
-- official instance: [@govd_bot](https://t.me/govd_bot)
-- support group: [govdsupport](https://t.me/govdsupport)
+---
 
-## features
+## Features
 
-- download media from various platforms
-- download videos, photos, and audio
-- inline mode support
-- group chat support with customizable settings
-- media caption support
+- Download media from various platforms  
+- Download videos, photos, and audio  
+- Inline mode support  
+- Group chat support with customizable settings  
+- Media caption support  
 
-## dependencies
+---
 
-- ffmpeg >= 6.1.1
-- libheif >= 1.19.7
-- pkg-config
-- mysql db
+## Dependencies
 
-## installation
+- `ffmpeg >= 6.1.1`  
+- `libheif >= 1.19.7`  
+- `pkg-config`  
+- MySQL database  
+
+---
+
+## Installation
 
 ```bash
 git clone https://github.com/govdbot/govd.git
 cd govd
-# edit .env file with your bot token and database credentials
+# Edit the .env file with your bot token and database credentials
 sh build.sh
 ```
 
-## installation with docker
+---
 
-first build the image using the dockerfile
+## Installation with Docker
+
+First, build the image using the Dockerfile:
 
 ```bash
 docker build -t govd-bot .
 ```
 
-next, update the .env file to ensure the database properties match the environment variables defined for the MariaDB service in the docker-compose.yml file 
-(while the default environment variables defined for the MariaDB service are acceptable, it is recommended to change the `MYSQL_PASSWORD` property in the docker-compose.yaml file for enhanced security and ensure that you also modify the the `DB_PASSWORD` property in the .env file to reflect this change)
+Next, update the `.env` file to ensure the database properties match the environment variables defined for the MariaDB service in the `docker-compose.yml` file.  
+While the default values are acceptable, **it is recommended** to change the `MYSQL_PASSWORD` in `docker-compose.yml` for enhanced security, and update the `DB_PASSWORD` in `.env` accordingly.
 
-the following line in the .env file MUST be set as shown below
+The following line in the `.env` file **must** be set exactly as shown:
 
 ```env
 DB_HOST=db
 ```
 
-finally run the compose to start all services
+Finally, run the following to start all services:
 
 ```bash
 docker compose up -d
 ```
 
-## env variables
+---
 
-| variable              | description                                      | default                      |
-|-----------------------|--------------------------------------------------|----------------------------------------|
-| `DB_HOST`             | database host                                    | `localhost`                            |
-| `DB_PORT`             | database port                                    | `3306`                                 |
-| `DB_NAME`             | database name                                    | `govd`                                 |
-| `DB_USER`             | database user                                    | `govd`                                 |
-| `DB_PASSWORD`         | database password                                | `password`                             |
-| `BOT_API_URL`*         | telegram bot api url                             | `https://api.telegram.org`             |
-| `BOT_TOKEN`           | telegram bot token                               | `12345678:ABC-DEF1234ghIkl-zyx57W2P0s` |
-| `CONCURRENT_UPDATES`  | max concurrent updates handled by the bot        | `50`                                   |
-| `LOG_DISPATCHER_ERRORS` | log dispatcher errors        | `0`                                    |
-| `DOWNLOADS_DIR`       | directory for downloaded files                   | `downloads`                            |
-| `HTTP_PROXY`          | http proxy (optional)                            |                                        |
-| `HTTPS_PROXY`         | http proxy (optional)                           |                                        |
-| `NO_PROXY`            | no proxy domains (optional)                      |                                        |
-| `REPO_URL`            | project repository url                           | `https://github.com/govdbot/govd`      |
-| `PROFILER_PORT`       | port for profiler http server (pprof)              | `0` _(disabled)_                                    |
+## Environment Variables
 
-**note:**
-to avoid limits on files, you should host your own telegram botapi. public bot instance is currently running under a botapi fork, [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api), but you can use the official botapi client too.
+| Variable                | Description                                        | Default                                |
+|-------------------------|----------------------------------------------------|----------------------------------------|
+| `DB_HOST`              | Database host                                      | `localhost`                            |
+| `DB_PORT`              | Database port                                      | `3306`                                 |
+| `DB_NAME`              | Database name                                      | `govd`                                 |
+| `DB_USER`              | Database user                                      | `govd`                                 |
+| `DB_PASSWORD`          | Database password                                  | `password`                             |
+| `BOT_API_URL`*         | Telegram bot API URL                               | `https://api.telegram.org`             |
+| `BOT_TOKEN`            | Telegram bot token                                 | `12345678:ABC-DEF1234ghIkl-zyx57W2P0s` |
+| `CONCURRENT_UPDATES`  | Max concurrent updates handled by the bot          | `50`                                   |
+| `LOG_DISPATCHER_ERRORS` | Log dispatcher errors                              | `0`                                    |
+| `DOWNLOADS_DIR`       | Directory for downloaded files                     | `downloads`                            |
+| `HTTP_PROXY`          | HTTP proxy (optional)                              |                                        |
+| `HTTPS_PROXY`         | HTTPS proxy (optional)                             |                                        |
+| `NO_PROXY`            | No-proxy domains (optional)                        |                                        |
+| `REPO_URL`            | Project repository URL                             | `https://github.com/govdbot/govd`      |
+| `PROFILER_PORT`       | Port for profiler HTTP server (pprof)              | `0` _(disabled)_                       |
 
-## cookies
+**Note:**  
+To avoid file size limits, it is recommended to host your own Telegram Bot API server. A public instance is currently running under a Bot API fork: [tdlight-telegram-bot-api](https://github.com/tdlight-team/tdlight-telegram-bot-api), but you can also use the official Bot API client.
 
-some extractors require cookies for download. to add your cookies, just insert a txt file in cookies folder (netscape format)
+---
 
-## todo
+## Cookies
 
-- [ ] add more extractors
-- [ ] switch to sonic json parser
-- [ ] switch to native libav
-- [ ] add tests
-- [ ] add dockerfile and compose
-- [ ] improve error handling
-- [ ] add support for telegram wehbhooks
-- [ ] switch to pgsql (?)
-- [ ] better API (?)
-- [ ] better docs with multiple README
+Some extractors require cookies for downloading. To use them, insert a `.txt` file in the `cookies` folder (in Netscape format).
+
+---
+
+## TODO
+
+- [ ] Add more extractors
+- [ ] Switch to Sonic JSON parser
+- [ ] Switch to native libav
+- [ ] Add tests
+- [ ] Add Dockerfile and Compose
+- [ ] Improve error handling
+- [ ] Add support for Telegram webhooks
+- [ ] Switch to PostgreSQL (?)
+- [ ] Better API (?)
+- [ ] Better documentation with multiple README files
+
